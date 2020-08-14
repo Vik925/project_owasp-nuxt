@@ -4,10 +4,12 @@
       <Logo />
       <h1>Мои сайты</h1>
       <div>
-        <form action="">
-          <p>Название сайта</p>
+        <div>
+          <p>Название сайта:</p>
           <input type="text" />
           <a href="/verify">Не подтвержден</a><br />
+        </div>
+        <form action="">
           <div>
             <p>Запуск проверки</p>
             <select>

@@ -4,20 +4,49 @@
       <Logo />
       <h1>Добавить сайт</h1>
       <div>
-        <form action="">
+        <form method="post" @submit.prevent="siteAdded">
           <p>Адрес сайта</p>
-          <input type="text" />
+          <input type="text" v-model="post.title" />
           <p>Название сайта</p>
-          <input type="text" />
+          <input type="text" v-model="post.urlSite" />
+          <button type="submit">Добавить сайт</button>
         </form>
-        <button>Добавить сайт</button>
+        <a href="/">Вернуться назад</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  export default {};
+  import axios from 'axios';
+
+  export default {
+    data() {
+      return {
+        post: {
+          title: '',
+          urlSite: '',
+        },
+      };
+    },
+    methods: {
+      siteAdded() {
+        let newSite = {
+          fifle: this.post.title,
+          urlSite: this.post.urlSite,
+        };
+        console.log(newSite);
+        axios
+          .post('')
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+    },
+  };
 </script>
 
 <style>
