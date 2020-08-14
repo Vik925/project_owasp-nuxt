@@ -2,34 +2,15 @@
   <div class="container">
     <div>
       <Logo />
-      <h1>Мои сайты</h1>
+      <h1>Добавить сайт</h1>
       <div>
         <form action="">
+          <p>Адрес сайта</p>
+          <input type="text" />
           <p>Название сайта</p>
           <input type="text" />
-          <a href="/verify">Не подтвержден</a><br />
-          <div>
-            <p>Запуск проверки</p>
-            <select>
-              <option>Один раз</option>
-              <option>Каждый день</option>
-              <option>Раз в неделю</option>
-              <option>Раз в месяц</option>
-            </select>
-            <p>Дата запуска</p>
-            <input type="date" />
-            <p>Время запуска</p>
-            <input type="time" />
-          </div>
         </form>
-        <p>Статус <a href="#">Запущено</a></p>
-        <br />
-        <div>
-          <a href="/scanReport">Отчетов о сканировании:</a>
-          <a href="#">Удалить сайт</a>
-        </div>
-        <br />
-        <a href="/addSite">Добавить сайт</a>
+        <button>Добавить сайт</button>
       </div>
     </div>
   </div>
