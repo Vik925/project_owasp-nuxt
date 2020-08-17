@@ -11,73 +11,71 @@
           <input type="text" v-model="post.urlSite" />
           <button type="submit">Добавить сайт</button>
         </form>
-        <a href="/">Вернуться назад</a>
+        <nuxt-link to="/">Вернуться назад</nuxt-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import axios from 'axios';
+import axios from 'axios';
 
-  export default {
-    data() {
-      return {
-        post: {
-          title: '',
-          urlSite: '',
-        },
-      };
-    },
-    methods: {
-      siteAdded() {
-        let newSite = {
-          fifle: this.post.title,
-          urlSite: this.post.urlSite,
-        };
-        console.log(newSite);
-        axios
-          .post('')
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            console.log(error);
-          });
+export default {
+  data() {
+    return {
+      post: {
+        title: '',
+        urlSite: '',
       },
+    };
+  },
+
+  methods: {
+    async siteAdded() {
+      const postNewSite = await axios({
+        method: 'post',
+        url: '/addSite',
+        dataSite: {
+          title: this.post.title,
+          laurlSite: this.post.urlSite,
+        },
+      });
+      const dataNewSite = postNewSite.config.dataSite;
+      console.log(dataNewSite);
     },
-  };
+  },
+};
 </script>
 
 <style>
-  .container {
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    /* align-items: center; */
-    /* text-align: center; */
-  }
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  /* text-align: center; */
+}
 
-  .title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-      Arial, sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-  }
+.title {
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  display: block;
+  font-weight: 300;
+  font-size: 100px;
+  color: #35495e;
+  letter-spacing: 1px;
+}
 
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
+.subtitle {
+  font-weight: 300;
+  font-size: 42px;
+  color: #526488;
+  word-spacing: 5px;
+  padding-bottom: 15px;
+}
 
-  .links {
-    padding-top: 15px;
-  }
+.links {
+  padding-top: 15px;
+}
 </style>
