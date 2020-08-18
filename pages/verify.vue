@@ -1,31 +1,19 @@
-<template>
-  <div class="container2">
-    <div>
-      <Logo />
-      <h1>Подтверждение прав владения сайтом</h1>
-      <div>
-        <h2>Сайт https://www.toppenoplast.ru/ - владелец не подтвержден</h2>
-        <p>
-          Прежде, чем получить возможность сканирования сайта на уязвимости, Вам необходимо подтвердить, что вы владеете
-          данным сайтом. Мы можем предложить два способа подтверждения.
-        </p>
-        <div>
-          <p></p>
-          <p>IN TXT "b30afe3d55fca7ad863115ab7d67f2b18fd344902a40c9f65b0c5ba5e214b274"</p>
-          <button>Подтвердить</button>
-        </div>
-        <div>
-          <p>Второй способ: создайте файл в каталоге веб-сервера</p>
-          <p>/verify/b30afe3d55fca7ad863115ab7d67f2b18fd344902a40c9f65b0c5ba5e214b274.html</p>
-          <button>Подтвердить</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
+<template></template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      checkStatus: false,
+    };
+  },
+  methods: {
+    checkStatus() {
+      this.checkStatus = true;
+      return;
+    },
+  },
+};
 </script>
 
 <style>

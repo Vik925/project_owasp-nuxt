@@ -3,16 +3,28 @@
     <div>
       <Logo />
       <h1>Мои сайты</h1>
-      <div>
-        <div v-for="title in titles" :key="title.site">
-          <p>Название сайта:{{ title.site }}</p>
 
-          <input type="text" value="jjlkslk" disabled />
-          <nuxt-link to="/verify">Не подтвержден</nuxt-link>
-          <br />
-        </div>
-        <div>
-          <form action>
+      <div v-for="site in sites" :key="site">
+        <br />
+        <form action>
+          <p>Название сайта: {{ site.title }}</p>
+          <p>URL сайта: {{ site.url}}</p>
+          <div v-if="site.status">
+            <button>Запустить проверку</button>
+            <br />
+            <div>
+              <nuxt-link to="/scanReport">Отчетов о сканировании: {{site.scanReports}}</nuxt-link>
+            </div>
+          </div>
+          <div v-else>
+            <a href="#" @click.prevent="openSiteVerify(site.id)">Не подтвержден</a>
+          </div>
+        </form>
+        <nuxt-link to="#">Удалить сайт</nuxt-link>
+      </div>
+
+      <!-- <div>
+         
             <div>
               <p>Запуск проверки</p>
               <select>
@@ -25,22 +37,10 @@
               <input type="date" />
               <p>Время запуска</p>
               <input type="time" />
-            </div>
-          </form>
-          <p>
-            Статус
-            <nuxt-link to="#">Запущено</nuxt-link>
-          </p>
-          <br />
-          <div>
-            <nuxt-link to="/scanReport">Отчетов о сканировании:</nuxt-link>
-            <nuxt-link to="#">Удалить сайт</nuxt-link>
-          </div>
-        </div>
+      </div>-->
 
-        <br />
-        <nuxt-link to="/addSite">Добавить сайт</nuxt-link>
-      </div>
+      <br />
+      <nuxt-link to="/addSite">Добавить сайт</nuxt-link>
     </div>
   </div>
 </template>
@@ -51,9 +51,28 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      titles: [{ site: '1' }, { site: '2' }],
-      items: [{ url: 'url/url' }, { url: 'url/url2' }],
+      sites: [
+        {
+          title: 'ServicePipe',
+          url: 'https://servicepipe.ru',
+          status: true,
+          scanReports: 1,
+          id: 1,
+        },
+        {
+          title: 'ServicePipe2',
+          url: 'https://servicepipe.ru2',
+          status: false,
+          scanReports: 0,
+          id: 2,
+        },
+      ],
     };
+  },
+  methods: {
+    openSiteVerify(site) {
+      this.$router.push('/sites/' + site);
+    },
   },
 };
 </script>

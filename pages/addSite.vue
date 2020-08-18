@@ -8,7 +8,7 @@
           <p>Адрес сайта</p>
           <input type="text" v-model="post.title" />
           <p>Название сайта</p>
-          <input type="text" v-model="post.urlSite" />
+          <input type="url" v-model="post.urlSite" />
           <button type="submit">Добавить сайт</button>
         </form>
         <nuxt-link to="/">Вернуться назад</nuxt-link>
@@ -37,7 +37,7 @@ export default {
         url: '/addSite',
         dataSite: {
           title: this.post.title,
-          laurlSite: this.post.urlSite,
+          urlSite: this.post.urlSite,
         },
       });
       const dataNewSite = postNewSite.config.dataSite;
