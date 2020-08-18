@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   data() {
     return {
@@ -55,8 +53,8 @@ export default {
         {
           title: 'ServicePipe',
           url: 'https://servicepipe.ru',
-          status: true,
-          scanReports: 1,
+          status: false,
+          scanReports: 0,
           id: 1,
         },
         {
