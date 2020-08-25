@@ -3,7 +3,7 @@
     <div class="container2">
       <div>
         <Logo />
-        <h1>{{$route.params.id}} Подтверждение прав владения сайтом</h1>
+        <h1>{{$route.params.siteId}} Подтверждение прав владения сайтом</h1>
         <div>
           <h2>Сайт - владелец не подтвержден</h2>
           <p>
@@ -18,7 +18,7 @@
             <p>Второй способ: создайте файл в каталоге веб-сервера</p>
             <p>/verify/b30afe3d55fca7ad863115ab7d67f2b18fd344902a40c9f65b0c5ba5e214b274.html</p>
             <div>
-              <button v-on:click="verifySite">Подтвердить</button>
+              <button @on:click="verifySite">Подтвердить</button>
               <nuxt-link to="/">Вернуться назад</nuxt-link>
             </div>
             <div></div>
@@ -41,14 +41,14 @@ export default {
           url: 'https://servicepipe.ru',
           status: true,
           scanReports: 1,
-          id: 1,
+          siteId: 1,
         },
         {
           title: 'ServicePipe2',
           url: 'https://servicepipe.ru2',
           status: false,
           scanReports: 0,
-          id: 2,
+          siteId: 2,
         },
       ],
     };
@@ -56,11 +56,13 @@ export default {
   methods: {
     verifySite() {
       axios
-        .get(
-          'https://cors-anywhere.herokuapp.com/https://servicepipe.ru/verify/b30afe3d55fca7ad863115ab7d67f2b18fd344902a40c9f65b0c5ba5e214b274.html'
-        )
-        .then(response => (this.info = response));
-      console.log('dddd');
+        .get('https://cors-anywhere.herokuapp.com/https://servicepipe.ru/')
+        .then(rightsVerified => {
+          console.log('Права доступа подтврждены');
+        })
+        .catch(rightNotVerified => {
+          console.log('Права доступа не подтверждены');
+        });
     },
   },
 };
@@ -98,3 +100,10 @@ export default {
   padding-top: 15px;
 }
 </style>
+
+db.webSites.insertOne({
+  "title": "топпенопласт",
+  "url": "https://servicepipe.ru2",
+   "status": "true",
+    "scanReports": 0
+})

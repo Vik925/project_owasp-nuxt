@@ -17,7 +17,7 @@
             </div>
           </div>
           <div v-else>
-            <a href="#" @click.prevent="openSiteVerify(site.id)">Не подтвержден</a>
+            <a href="#" @click.prevent="openSiteVerify(site.siteId)">Не подтвержден</a>
           </div>
         </form>
         <nuxt-link to="#">Удалить сайт</nuxt-link>
@@ -53,16 +53,16 @@ export default {
         {
           title: 'ServicePipe',
           url: 'https://servicepipe.ru',
-          status: false,
+          status: true,
           scanReports: 0,
-          id: 1,
+          siteId: 1,
         },
         {
           title: 'ServicePipe2',
           url: 'https://servicepipe.ru2',
           status: false,
           scanReports: 0,
-          id: 2,
+          siteId: 2,
         },
       ],
     };
