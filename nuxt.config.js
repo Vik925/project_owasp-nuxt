@@ -25,13 +25,13 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['normalize.css', { src: 'ant-design-vue/dist/antd.less', lang: 'less' }],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
   // :: plugins
-  plugins: ['~/plugins/global'],
+  plugins: ['~/plugins/ant-design-vue', '~/plugins/global'],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -52,5 +52,20 @@ export default {
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {},
+  build: {
+    loaders: {
+      less: { lessOptions: { javascriptEnabled: true } },
+    },
+
+    transpile: [
+      'vue-lazy-hydration',
+      'intersection-observer',
+      /^ant-design-vue($|\/)/,
+      'node_modules/**/*',
+      '.nuxt/**/*',
+      'static/**/*',
+      'assets/**/*',
+      '__test__',
+    ],
+  },
 };

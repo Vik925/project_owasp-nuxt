@@ -1,21 +1,21 @@
 <template>
   <div class="container">
     <div>
-      <a-layout id="components-layout-demo-side" style="min-height: 100vh">
+      <Logo />
+      <a-layout id="components-layout-demo-side" style="min-height: 75vh" class="radius">
         <a-layout-content style="margin: 0 16px">
           <a-breadcrumb style="margin: 16px 0">
-            <Logo />
+            <h1>ДОБАВИТЬ САЙТ</h1>
           </a-breadcrumb>
-          <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
+          <div :style="{ padding: '24px', background: '#fff' }" class="radius">
             <div>
-              <h4>Добавить сайт</h4>
               <a-form method="post" @submit.prevent="siteAdded">
                 <a-form-item label="Название сайта">
-                  <a-input v-model="sitePost.title" allow-clear @change="onChange" id="error" placeholder="Мой сайт" />
+                  <a-input v-model="sitePost.title" allow-clear id="error" placeholder="Мой сайт" />
                 </a-form-item>
                 <a-form-item label="Адрес сайта">
                   <div style="margin-bottom: 16px">
-                    <a-input v-model="sitePost.host" allow-clear @change="onChange" placeholder="www.mysite">
+                    <a-input v-model="sitePost.host" allow-clear placeholder="www.mysite">
                       <a-select slot="addonBefore" v-model="sitePost.protocol" style="width: 90px">
                         <a-select-option value="http://"> http:// </a-select-option>
                         <a-select-option value="https://"> https:// </a-select-option>
@@ -34,9 +34,9 @@
                   <a-button type="primary" html-type="submit"> Добавить сайт </a-button>
                 </a-form-item>
               </a-form>
-              <nuxt-link to="/">Вернуться назад</nuxt-link>
             </div>
           </div>
+          <nuxt-link to="/">Вернуться назад</nuxt-link>
         </a-layout-content>
       </a-layout>
     </div>
@@ -53,6 +53,7 @@
           protocol: 'http://',
           domainZone: '.ru',
         },
+
         formLayout: 'horizontal',
         form: this.$form.createForm(this, { name: 'coordinated' }),
       };
@@ -90,3 +91,10 @@
     },
   };
 </script>
+
+<style>
+  .radius {
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin: 15px 0px;
+  }
+</style>

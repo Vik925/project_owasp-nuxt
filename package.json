@@ -13,11 +13,16 @@
     "@nuxtjs/axios": "^5.12.1",
     "ant-design-vue": "^1.6.5",
     "axios": "0.20.0",
+    "braces": "^3.0.2",
     "cors": "^2.8.5",
-    "express-handlebars": "^5.1.0",
-    "mongodb": "^3.6.0",
+    "eslint-plugin-vue": "^6.2.2",
     "express": "^4.17.1",
-    "nuxt": "^2.14.3"
+    "express-handlebars": "^5.1.0",
+    "less": "^3.12.2",
+    "less-loader": "^7.0.0",
+    "mongodb": "^3.6.0",
+    "normalize.css": "^8.0.1",
+    "nuxt": "^2.14.4"
   },
   "devDependencies": {
     "@babel/cli": "7.10.5",
@@ -35,6 +40,7 @@
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-nuxt": "1.0.0",
     "eslint-plugin-prettier": "3.1.4",
+    "install": "^0.13.0",
     "mongodb-client-encryption": "^1.1.0",
     "postcss-preset-env": "^6.7.0",
     "prettier": "2.1.0",
