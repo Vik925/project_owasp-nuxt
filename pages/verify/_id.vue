@@ -1,38 +1,53 @@
 <template>
-  <section>
-    <div class="container2">
-      <div>
-        <Logo />
-        <h1>Подтверждение прав владения сайтом</h1>
-        <div>
-          <h2>Сайт {{ $route.params.id }} - владелец</h2>
-          <p>
-            Прежде, чем получить возможность сканирования сайта на уязвимости, Вам необходимо подтвердить, что вы
-            владеете данным сайтом. Мы можем предложить два способа подтверждения.
-          </p>
-          <p>Ваш ключ веритификации: <b></b></p>
-          <br />
-          <div>
-            <p>Первый способ: добавьте TXT запись в DNS</p>
-            <p>IN TXT <b> ""</b></p>
-          </div>
-          <div>
-            <br />
-            <p>Второй способ: создайте файл в каталоге веб-сервера</p>
+  <div class="container">
+    <div>
+      <Logo />
+      <a-layout id="components-layout-demo-side" style="min-height: 75vh" class="radius">
+        <a-layout-content style="margin: 0 16px">
+          <a-breadcrumb style="margin: 16px 0">
+            <h1>Подтверждение прав владения сайтом</h1>
+          </a-breadcrumb>
+          <a-card class="radius">
+            <h3>Сайт {{ $route.params.id }} - владелец</h3>
+
             <p>
-              <b>/verify/.html </b>
+              Прежде, чем получить возможность сканирования сайта на уязвимости,<br />
+              Вам необходимо подтвердить, что вы владеете данным сайтом. Мы можем предложить два способа подтверждения.
             </p>
-            <div>
-              <br />
-              <button v-on:click="verifySite">Подтвердить</button>
-              <nuxt-link to="/">Вернуться назад</nuxt-link>
+            <div class="container2">
+              <div class="row">
+                <div class="column">
+                  <a-steps :current="false" size="small">
+                    <a-step title="Первый способ">
+                      <a-icon slot="icon" type="check-circle" />
+                    </a-step>
+                  </a-steps>
+                  <p>
+                    Добавьте TXT запись в DNS <br />
+                    IN TXT <b> ""</b>
+                  </p>
+                </div>
+                <div class="column">
+                  <a-steps :current="true" size="small">
+                    <a-step title="Второй способ">
+                      <a-icon slot="icon" type="check-circle" />
+                    </a-step>
+                  </a-steps>
+                  <p>
+                    Создайте файл в каталоге веб-сервера <br />
+                    <b>/verify/.html </b>
+                  </p>
+                </div>
+              </div>
+
+              <a-button type="primary" v-on:click="verifySite">Подтвердить</a-button>
             </div>
-            <div></div>
-          </div>
-        </div>
-      </div>
+          </a-card>
+          <nuxt-link to="/">Вернуться назад</nuxt-link>
+        </a-layout-content>
+      </a-layout>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -77,35 +92,96 @@
   };
 </script>
 
-<style>
+<style scoped>
   .container2 {
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    /* align-items: center; */
+    /* margin: 0 auto; */
+    /* min-height: 100vh; */
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-      Arial, sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
+  button {
+    width: 200px;
   }
 
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
+  @media (max-width: 570.98px) {
+    button {
+      width: 100%;
+    }
   }
 
-  .links {
-    padding-top: 15px;
+  .row:before,
+  .row:after {
+    content: ' ';
+    display: table;
+  }
+  .row:after {
+    clear: both;
+  }
+
+  .column {
+    position: relative;
+    float: left;
+    padding: 10px 10px;
+    width: 50%;
+  }
+
+  .column-1 {
+    width: 6.86666666667%;
+  }
+  .column-2 {
+    width: 15.3333333333%;
+  }
+  .column-3 {
+    width: 23.8%;
+  }
+  .column-4 {
+    width: 32.2666666667%;
+  }
+  .column-5 {
+    width: 40.7333333333%;
+  }
+  .column-6 {
+    width: 49.2%;
+  }
+  .column-7 {
+    width: 57.6666666667%;
+  }
+  .column-8 {
+    width: 66.1333333333%;
+  }
+  .column-9 {
+    width: 74.6%;
+  }
+  .column-10 {
+    width: 83.0666666667%;
+  }
+  .column-11 {
+    width: 91.5333333333%;
+  }
+  .column-12 {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 550px) {
+    .column-1,
+    .column-2,
+    .column-3,
+    .column-4,
+    .column-5,
+    .column-6,
+    .column-7,
+    .column-8,
+    .column-9,
+    .column-10,
+    .column-11,
+    .column-12 {
+      width: auto;
+      float: none;
+    }
+  }
+
+  .ant-steps {
   }
 </style>

@@ -2,72 +2,154 @@
   <div class="container">
     <div>
       <Logo />
-      <h1>Отчет о сканировании</h1>
-      <div>
-        <p>Название сайта</p>
-        <div>
-          <p>Дата запуска</p>
-          <p>Время запуска</p>
-          <p>Статус</p>
-          <br />
-          <table>
-            <tbody>
-              <tr>
-                <th>Обнаружено уязвимостей</th>
-              </tr>
-              <tr>
-                <th>High</th>
-                <th>Medium</th>
-                <th>Low</th>
-                <th>Info</th>
-              </tr>
-              <tr>
-                <td>44</td>
-                <td>55</td>
-                <td>66</td>
-                <td>77</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <a-layout id="components-layout-demo-side" style="min-height: 75vh" class="radius">
+        <a-layout-content style="margin: 0 16px">
+          <a-breadcrumb style="margin: 16px 0">
+            <h1>Отчет о сканировании</h1>
+          </a-breadcrumb>
+          <a-card class="radius">
+            <p>Название сайта</p>
+            <p>Дата запуска</p>
+            <p>Время запуска</p>
+            <p>Статус</p>
+            <h3>Обнаружено уязвимостей</h3>
+
+            <a-table :columns="columns" :data-source="data" bordered>
+              <template v-for="col in ['name', 'age', 'address']" :slot="col" slot-scope="text, record, index">
+                <div :key="col">
+                  <a-input
+                    v-if="record.editable"
+                    style="margin: -5px 0"
+                    :value="text"
+                    @change="e => handleChange(e.target.value, record.key, col)"
+                  />
+                  <template v-else>
+                    {{ text }}
+                  </template>
+                </div>
+              </template>
+              <template slot="operation" slot-scope="text, record, index">
+                <div class="editable-row-operations">
+                  <span v-if="record.editable">
+                    <a @click="() => save(record.key)">Save</a>
+                    <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
+                      <a>Cancel</a>
+                    </a-popconfirm>
+                  </span>
+                  <span v-else>
+                    <a :disabled="editingKey !== ''" @click="() => edit(record.key)">Edit</a>
+                  </span>
+                </div>
+              </template>
+            </a-table>
+          </a-card>
+          <nuxt-link to="/">Вернуться назад</nuxt-link>
+        </a-layout-content>
+      </a-layout>
     </div>
   </div>
 </template>
 
 <script>
-  export default {};
+  const columns = [
+    {
+      title: 'High',
+      dataIndex: 'name',
+      width: '25%',
+      scopedSlots: { customRender: 'name' },
+    },
+    {
+      title: 'Medium',
+      dataIndex: 'age',
+      width: '15%',
+      scopedSlots: { customRender: 'age' },
+    },
+    {
+      title: 'Low',
+      dataIndex: 'address',
+      width: '40%',
+      scopedSlots: { customRender: 'address' },
+    },
+    {
+      title: 'Info',
+      dataIndex: 'operation',
+      scopedSlots: { customRender: 'operation' },
+    },
+  ];
+
+  const data = [];
+  for (let i = 0; i < 100; i++) {
+    data.push({
+      key: i.toString(),
+      name: `Edrward ${i}`,
+      age: 32,
+      address: `London Park no. ${i}`,
+    });
+  }
+  export default {
+    data() {
+      this.cacheData = data.map(item => ({ ...item }));
+      return {
+        data,
+        columns,
+        editingKey: '',
+      };
+    },
+    methods: {
+      handleChange(value, key, column) {
+        const newData = [...this.data];
+        const target = newData.filter(item => key === item.key)[0];
+        if (target) {
+          target[column] = value;
+          this.data = newData;
+        }
+      },
+      edit(key) {
+        const newData = [...this.data];
+        const target = newData.filter(item => key === item.key)[0];
+        this.editingKey = key;
+        if (target) {
+          target.editable = true;
+          this.data = newData;
+        }
+      },
+      save(key) {
+        const newData = [...this.data];
+        const newCacheData = [...this.cacheData];
+        const target = newData.filter(item => key === item.key)[0];
+        const targetCache = newCacheData.filter(item => key === item.key)[0];
+        if (target && targetCache) {
+          delete target.editable;
+          this.data = newData;
+          Object.assign(targetCache, target);
+          this.cacheData = newCacheData;
+        }
+        this.editingKey = '';
+      },
+      cancel(key) {
+        const newData = [...this.data];
+        const target = newData.filter(item => key === item.key)[0];
+        this.editingKey = '';
+        if (target) {
+          Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
+          delete target.editable;
+          this.data = newData;
+        }
+      },
+    },
+  };
 </script>
 
-<style>
+<style scoped>
   .container {
     margin: 0 auto;
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
-    /* text-align: center; */
   }
 
-  .title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-      Arial, sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-  }
-
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
-
-  .links {
-    padding-top: 15px;
+  .radius {
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin: 15px 0px;
   }
 </style>
