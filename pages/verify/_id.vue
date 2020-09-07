@@ -5,44 +5,59 @@
       <a-layout id="components-layout-demo-side" style="min-height: 75vh" class="radius">
         <a-layout-content style="margin: 0 16px">
           <a-breadcrumb style="margin: 16px 0">
-            <h1>Подтверждение прав владения сайтом</h1>
-          </a-breadcrumb>
-          <a-card class="radius">
-            <h3>Сайт {{ $route.params.id }} - владелец</h3>
-
+            <h1>Подтверждение прав владения сайтом {{ sate.websiteHost }}</h1>
             <p>
-              Прежде, чем получить возможность сканирования сайта на уязвимости,<br />
-              Вам необходимо подтвердить, что вы владеете данным сайтом. Мы можем предложить два способа подтверждения.
+              Прежде, чем получить возможность сканирования сайта на уязвимости, Вам необходимо подтвердить, что вы
+              владеете данным сайтом. Мы можем предложить два способа подтверждения.
             </p>
-            <div class="container2">
-              <div class="row">
-                <div class="column">
-                  <a-steps :current="false" size="small">
-                    <a-step title="Первый способ">
-                      <a-icon slot="icon" type="check-circle" />
-                    </a-step>
-                  </a-steps>
+          </a-breadcrumb>
+          <div class="row" v-on="verifyOn()">
+            <div class="column column-5">
+              <a-card class="radius">
+                <div class="container2">
+                  <div>
+                    <a-icon type="check-circle" slot="icon" class="icon" v-bind:theme="iconsColor1" />
+                  </div>
+                  <p>Первый способ</p>
+                  <br />
                   <p>
                     Добавьте TXT запись в DNS <br />
-                    IN TXT <b> ""</b>
+                    IN TXT "{{ sate._id }}"
                   </p>
+                  <br />
+                  <div v-if="verefity1">
+                    <p class="onVerifity">Права владения сайтом подтверждены!</p>
+                  </div>
+                  <div v-else>
+                    <a-button type="primary" v-on:click="verifySite()">Подтвердить</a-button>
+                  </div>
                 </div>
-                <div class="column">
-                  <a-steps :current="true" size="small">
-                    <a-step title="Второй способ">
-                      <a-icon slot="icon" type="check-circle" />
-                    </a-step>
-                  </a-steps>
+              </a-card>
+            </div>
+            <div class="column column-5">
+              <a-card class="radius">
+                <div class="container2">
+                  <div>
+                    <a-icon type="check-circle" slot="icon" class="icon" v-bind:theme="iconsColor2" />
+                  </div>
+                  <p>Второй способ</p>
+                  <br />
                   <p>
                     Создайте файл в каталоге веб-сервера <br />
-                    <b>/verify/.html </b>
+                    /verify/{{ sate._id }}.html
                   </p>
+                  <br />
+                  <div v-if="verefity2">
+                    <p class="onVerifity">Права владения сайтом подтверждены!</p>
+                  </div>
+                  <div v-else>
+                    <a-button type="primary" v-on:click="verifySite()">Подтвердить</a-button>
+                  </div>
                 </div>
-              </div>
-
-              <a-button type="primary" v-on:click="verifySite">Подтвердить</a-button>
+              </a-card>
             </div>
-          </a-card>
+          </div>
+
           <nuxt-link to="/">Вернуться назад</nuxt-link>
         </a-layout-content>
       </a-layout>
@@ -54,15 +69,29 @@
   export default {
     data() {
       return {
-        status: '',
+        sate: {
+          scanReports: 10,
+          status: false,
+          websiteTitle: 'ServisePipe',
+          websiteUrl: 'https://servicepipe.ru/',
+          websiteHost: 'servicepipe.ru',
+          _id: 'b4fde4dd05ea65f40ea620507c5b4e33add75a171d1f59d03fde68e5641a4827',
+        },
+        verefity1: false,
+        verefity2: false,
+        iconsColor1: '',
+        iconsColor2: '',
       };
     },
     methods: {
+      validate({ params }) {
+        return /^\d+$/.test(params.id);
+      },
       async verifySite() {
         try {
           const url = '/api/modules/scanner/exist-url';
           const payload = {
-            www: 'https://www.toppenoplast.ru123123/',
+            www: `${this.sate.websiteUrl}/verify/${this.sate._id}.html`, // www: 'https://www.toppenoplast.ru/',
           };
 
           const answer = await this.$axios({
@@ -74,6 +103,11 @@
 
           console.log('answer', answer);
           const { data } = answer;
+
+          if (data.statusCode == 200) {
+            this.verefity2 = true;
+          }
+
           if (data.statusCode !== 200 && data.statusCode !== 201) throw new Error(data.serverAnswer);
 
           const result = data.serverAnswer;
@@ -85,9 +119,47 @@
           return err;
         }
       },
-      validate({ params }) {
-        return /^\d+$/.test(params.id);
+
+      verifyOn() {
+        if (this.verefity1 == true) {
+          this.iconsColor1 = 'twoTone';
+        }
+        if (this.verefity2 == true) {
+          this.iconsColor2 = 'twoTone';
+        }
+        return this.iconsColor1, this.iconsColor2;
       },
+    },
+
+    async statusPost() {
+      console.log(this.sate.status);
+      if (this.verefity1 == true || this.verefity2 == true) {
+        const payload = {
+          status: true,
+        };
+      }
+      try {
+        const url = 'http://185.79.117.244:4004/api/modules/scanner/send';
+        const id = `${this.sate._id}`;
+
+        const answer = await this.$axios({
+          url,
+          method: 'POST',
+          data: payload,
+          validateStatus: false,
+        });
+        console.log('answer', answer);
+        const { data } = answer;
+        if (data.statusCode !== 200 && data.statusCode !== 201) throw new Error(data.serverAnswer);
+
+        const result = data.serverAnswer;
+        console.log('result', result);
+
+        return result;
+      } catch (err) {
+        console.error(`❌ [ERROR] ${err}`);
+        return err;
+      }
     },
   };
 </script>
@@ -101,8 +173,13 @@
     margin-right: auto;
   }
 
-  button {
-    width: 200px;
+  .icon {
+    margin: 20px;
+    font-size: 30px;
+  }
+
+  .onVerifity {
+    color: #1890ff;
   }
 
   @media (max-width: 570.98px) {
@@ -125,6 +202,7 @@
     float: left;
     padding: 10px 10px;
     width: 50%;
+    justify-content: center;
   }
 
   .column-1 {

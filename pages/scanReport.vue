@@ -5,7 +5,7 @@
       <a-layout id="components-layout-demo-side" style="min-height: 75vh" class="radius">
         <a-layout-content style="margin: 0 16px">
           <a-breadcrumb style="margin: 16px 0">
-            <h1>Отчет о сканировании</h1>
+            <h1>ОТЧЕТ О СКАНИРОВАНИИ</h1>
           </a-breadcrumb>
           <a-card class="radius">
             <p>Название сайта</p>

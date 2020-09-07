@@ -30,9 +30,8 @@
                     </a-input>
                   </div>
                 </a-form-item>
-                <a-form-item :wrapper-col="{ span: 15, offset: 9 }">
-                  <a-button type="primary" html-type="submit"> Добавить сайт </a-button>
-                </a-form-item>
+
+                <a-button type="primary" html-type="submit"> Добавить сайт </a-button>
               </a-form>
             </div>
           </div>
@@ -92,9 +91,30 @@
   };
 </script>
 
-<style>
+<style scoped>
+  .container {
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+
   .radius {
     border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
     margin: 15px 0px;
   }
+
+  button {
+    width: 200px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  @media (max-width: 570.98px) {
+    button {
+      width: 100%;
+    }
+  }
 </style>
+>

@@ -8,30 +8,28 @@
             <h1>МОИ САЙТЫ</h1>
           </a-breadcrumb>
 
-          <a-button type="primary"><nuxt-link to="/addSite"> Добавить сайт</nuxt-link></a-button>
+          <nuxt-link to="/addSite"> Добавить сайт</nuxt-link>
 
           <div v-for="(site, index) of sites" :key="index">
             <a-card class="radius">
-              <div class="row">
-                <div class="column column-4">
-                  <h3>{{ index + 1 }}. {{ site.websiteTitle }}</h3>
-                </div>
-                <div class="column column-4">
-                  <p>
-                    URL сайта: <b>{{ site.websiteHost }}</b>
-                  </p>
-                </div>
-                <div class="column column-3">
-                  <a-button type="primary"> Удалить сайт </a-button>
-                </div>
-              </div>
-              <hr />
-
               <form>
-                <div v-if="true">
+                <div class="row">
+                  <div class="column column-4">
+                    <p>{{ index + 1 }}. {{ site.websiteTitle }}</p>
+                  </div>
+                  <div class="column column-4">
+                    <p>URL сайта: {{ site.websiteHost }}</p>
+                  </div>
+                  <div class="column column-3">
+                    <a-button type="link"> Удалить сайт </a-button>
+                  </div>
+                </div>
+                <hr />
+
+                <div v-if="site.status">
                   <div class="row">
                     <div class="column column-4">
-                      <a-cascader :options="options" placeholder="Запуск проверки" @change="onChange" />
+                      <a-cascader :options="options" placeholder="Запуск проверки" />
                     </div>
                     <div class="column column-4">
                       <a-form-model-item label="Activity time">
@@ -50,8 +48,10 @@
                 <div v-else>
                   <div class="row">
                     <div class="column column-4">
-                      <a-steps :current="false" size="small" @click.prevent="openSiteVerify(index + 1)">
-                        <a-step title="Подтверждение прав" />
+                      <a-steps :current="1" size="small" @click.prevent="openSiteVerify(index + 1)">
+                        <a-step title="Подтверждение прав">
+                          <a-icon slot="icon" type="check-circle" />
+                        </a-step>
                       </a-steps>
                     </div>
                   </div>
@@ -61,7 +61,7 @@
           </div>
         </a-layout-content>
       </a-layout>
-      <p @click="getSites">dddd {{ sites }}</p>
+      <p @click="getSites">Test</p>
     </div>
   </div>
 </template>
@@ -72,19 +72,23 @@
       return {
         sites: [
           {
-            createdAt: 'nnnnn',
-            scanReports: '10',
-            status: 'true',
+            scanReports: 10,
+            status: true,
             websiteTitle: 'ServisePipe',
             websiteUrl: 'https://servicepipe.ru/',
             websiteHost: 'servicepipe.ru',
             _id: 'asaswcecacaw',
           },
+          {
+            scanReports: 5,
+            status: false,
+            websiteTitle: 'TOP-penoplast',
+            websiteUrl: 'https://www.toppenoplast.ru/',
+            websiteHost: 'toppenoplast.ru',
+            _id: 'asaswcedsdcacaw',
+          },
         ],
-        post: {
-          title: 'sss',
-          name: 'ddd',
-        },
+
         options: [
           {
             value: 'Один раз',
@@ -138,56 +142,29 @@
         this.$router.push(`/verify/${index}`);
       },
     },
-    onChange(value) {
-      console.log(value);
-    },
   };
 </script>
 
-<style scoped>
+<style>
+  p {
+    font-family: 'Quicksand', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
+      'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 0.88rem;
+    color: #2f2f2f;
+    margin: 0;
+    word-break: break-word;
+  }
+
   .container {
     margin: 0 auto;
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
-    /* text-align: center; */
   }
 
-  /* @media (max-width: 570.98px) {
-    form {
-      grid: auto/1fr;
-      grid-auto-flow: row;
-      padding: 1rem;
-      justify-content: stretch;
-      align-items: center;
-    }
-  }
-
-  @media (max-width: 1199.98px) {
-    form {
-      grid: auto/1fr 1fr;
-    }
-  }
-
-  @media (max-width: 1920.98px) {
-    form {
-      grid-auto-columns: 4fr 3fr 2fr 1fr;
-      grid-gap: 30px;
-    }
-  }
-
-  form {
-    display: grid;
-    grid-auto-flow: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.875rem 1.875rem 0.25rem;
-    grid-auto-columns: 4fr 2fr 1fr 1fr;
-    grid-gap: 9rem;
-  } */
-  button {
-    width: 200px;
+  .radius {
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+    margin: 15px 0px;
   }
 
   @media (max-width: 570.98px) {
